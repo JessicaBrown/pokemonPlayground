@@ -27,10 +27,10 @@ export const Pokedex = () => {
                 {/* <p>Total Experience: {tenPokeExp}</p>
                     {title} */}
                 <div className="pokedex-cards">
-                {pokemon.map((p)=>(
-                      console.log(p.id)
-                  //  <Pokecard key={p.id} id={p.id} name={p.name} type={p.type} exp={p.exp} />
-                ))}
+                {/* {pokemon.map((p)=>( */}
+                   {/* //   console.log(p.id) */}
+                    <Pokecard key={pokemon.id} id={pokemon.id} name={pokemon.name} type={pokemon.type} exp={pokemon.exp} />
+                {/* ))} */}
                    </div>
             </div>
         )

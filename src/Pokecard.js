@@ -14,16 +14,14 @@ export const Pokecard = () => {
 
 	return (
 		<>
-			{/* {pokemon.map((p) => ( */}
-			<div className="pokecard">
-				<h1 className="pokecard-title">{pokemon.name}</h1>
-				<div className="pokecard-img">
-					{/* <PokemonImg /> */}
+			{pokemon.map((p) => (
+				<div className="pokecard">
+					<h1 className="pokecard-title">{p.name}</h1>
+					<div className="pokecard-img">{/* <PokemonImg /> */}</div>
+					<div className="pokecard-data">Type: {p.type}</div>
+					<div className="pokecard-data">EXP: {p.exp}</div>
 				</div>
-				<div className="pokecard-data">Type: {pokemon.type}</div>
-				<div className="pokecard-data">EXP: {pokemon.base_experience}</div>
-			</div>
-			{/* ))} */}
+			))}
 		</>
 	);
 };

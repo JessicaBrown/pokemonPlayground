@@ -8,7 +8,7 @@ export const usePokemonContext = () => {
     const [state, setState] = useContext(PokemonContext);
     const pokemonNameApi = 'https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0';
     const pokemonStatsApi = 'https://pokeapi.co/api/v2/pokemon/';
-
+    const Poke_Img_API = "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/";
     const setPokemonName = async () => {
 
         try {
@@ -30,16 +30,30 @@ export const usePokemonContext = () => {
               const pokeData = await new Promise((resolve) =>  resolve( pokeRes));
               return {  pokeData };
             });
-
             const results = await Promise.all(promises);
+
+      
             const allResults = [];
+            const padToThree = (n) => (n <= 999 ? `00${n}`.slice(-3) : n);
+            console.log('####',allResults)
             const tenPokeStats = results.map(d =>  d.pokeData.data)
-            tenPokeStats.map(p => { return allResults.push({exp: p.base_experience !== null ? p.base_experience : 0,name: p.name,id: p.id, type: p.types[0].type.name})})
-            console.log('dddddd',allResults)
             const pokeId = tenPokeStats.map(d =>d.id)
+            console.log('10',tenPokeStats)
+            tenPokeStats.map(p => { 
+            //  let url;
+           //   pokeId.map(p => {return url.push({'url': `${Poke_Img_API}${_.forEach(padToThree(p))}.png`})})
+              
+              return allResults.push({exp: p.base_experience !== null ? p.base_experience : 0,name: p.name,id: p.id, type: p.types[0].type.name})})
+           //  console.log('dddddd',allResults)
+          //  const pokeId = tenPokeStats.map(d =>d.id)
             const pokeName = tenPokeStats.map(d =>d.name)
             const pokeExp = tenPokeStats.map(d =>d.base_experience)
             const pokeType = tenPokeStats.map(d =>d.types[0].type.name)
+// if pokeId === 
+            const id = pokeId.map(p => {return {'url': `${Poke_Img_API}${_.forEach(padToThree(p))}.png`}})
+            console.log('???????', id)
+         //   allResults.push(id === )
+         
 
                   setState(draft => {
                     draft.pokemon = allResults;
@@ -61,8 +75,31 @@ export const usePokemonContext = () => {
   
       };
 
+    //   const setPokemonImg = async (id) => {
+    //     console.log('ID', id)
+    //     //Poke_Img_API
+    //     try{
+    //     //  const pokeRes = await axios(`${Poke_Img_API}${_.forEach(p)}`)
+    //     //  const resImg = await axios(`${Poke_Img_API}${_.forEach(id)}`);
+    //     const resImg = id.map(async (p) => {
+    //       console.log('resName', p)
+    //       const pokeRes = await axios(`${Poke_Img_API}${_.forEach(p)}`)
+    //     })
+    //     //   setState(draft => {
+    //     // draft.tenPokeStats = resImg;
+      
+    //   } catch (error) {
+    //     return error;
+    // //   setState(draft => {
+    // //     draft.isActivityLogLoading = false;
+    // //     draft.activityLogErrors = error;
+    // //   });
+    // //   errorHandler(error);
+    // }
+    //   }
     return {
         ...state,
         setPokemonName,
+      //  setPokemonImg,
       };
     };
