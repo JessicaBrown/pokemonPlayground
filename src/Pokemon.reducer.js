@@ -31,29 +31,34 @@ export const usePokemonContext = () => {
               return {  pokeData };
             });
             const results = await Promise.all(promises);
-
+            console.log('results',results)
       
             const allResults = [];
             const padToThree = (n) => (n <= 999 ? `00${n}`.slice(-3) : n);
-            console.log('####',allResults)
+            console.log('All Results',allResults)
             const tenPokeStats = results.map(d =>  d.pokeData.data)
             const pokeId = tenPokeStats.map(d =>d.id)
             console.log('10',tenPokeStats)
             tenPokeStats.map(p => { 
+              console.log('P', p)
             //  let url;
            //   pokeId.map(p => {return url.push({'url': `${Poke_Img_API}${_.forEach(padToThree(p))}.png`})})
-              
-              return allResults.push({exp: p.base_experience !== null ? p.base_experience : 0,name: p.name,id: p.id, type: p.types[0].type.name})})
-           //  console.log('dddddd',allResults)
-          //  const pokeId = tenPokeStats.map(d =>d.id)
+           const url = pokeId.map(id => {
+          //  if(){}else{}
+              return {'url': `${Poke_Img_API}${_.forEach(padToThree(id))}.png`,'id': id}
+
+            })
+            const x = url.map(d => console.log(p.id, d.id))
+            // const x = url.map(d => 
+            //   {return d.id} p.id === x
+            // )
+            // need to push url into this array
+            console.log('URL', x)
+              return allResults.push({url: x, exp: p.base_experience !== null ? p.base_experience : 0,name: p.name,id: p.id, type: p.types[0].type.name})})
             const pokeName = tenPokeStats.map(d =>d.name)
             const pokeExp = tenPokeStats.map(d =>d.base_experience)
             const pokeType = tenPokeStats.map(d =>d.types[0].type.name)
-// if pokeId === 
-            const id = pokeId.map(p => {return {'url': `${Poke_Img_API}${_.forEach(padToThree(p))}.png`}})
-            console.log('???????', id)
-         //   allResults.push(id === )
-         
+            console.log('All Resultssssss',allResults)
 
                   setState(draft => {
                     draft.pokemon = allResults;
@@ -75,31 +80,8 @@ export const usePokemonContext = () => {
   
       };
 
-    //   const setPokemonImg = async (id) => {
-    //     console.log('ID', id)
-    //     //Poke_Img_API
-    //     try{
-    //     //  const pokeRes = await axios(`${Poke_Img_API}${_.forEach(p)}`)
-    //     //  const resImg = await axios(`${Poke_Img_API}${_.forEach(id)}`);
-    //     const resImg = id.map(async (p) => {
-    //       console.log('resName', p)
-    //       const pokeRes = await axios(`${Poke_Img_API}${_.forEach(p)}`)
-    //     })
-    //     //   setState(draft => {
-    //     // draft.tenPokeStats = resImg;
-      
-    //   } catch (error) {
-    //     return error;
-    // //   setState(draft => {
-    // //     draft.isActivityLogLoading = false;
-    // //     draft.activityLogErrors = error;
-    // //   });
-    // //   errorHandler(error);
-    // }
-    //   }
     return {
         ...state,
         setPokemonName,
-      //  setPokemonImg,
       };
     };
