@@ -1,38 +1,28 @@
-import React, {useEffect, useState} from "react";
- import {Pokecard} from "./Pokecard";
-// import { usePokemon } from "./Pokemon.context";
-import { usePokemonContext } from "./Pokemon.reducer";
-import './Pokedex.css';
+import React from "react";
+import {Pokecard} from "./Pokecard";
+import './Pokedex.scss';
 
-export const Pokedex = () => {
-    const {setPokemonName,tenPokeExp, pokemon } = usePokemonContext();
-         console.log('FRRRRRRR',pokemon)
-        
-     useEffect(() => {   
-        setPokemonName();
-      },[]);
-    //   console.log('2312312', poke)
-        // let title;
-        // if(pokemon.isWinner){
-        //     title = <h1 className='pokedex-winner'>Winner!</h1>
-        // }else{
-        //     title = <h1 className='pokedex-loser'>Loser!</h1>
-        // }
+export const Pokedex = ({pokemon, isWinner, isLoading, exp}) => {
 
-        console.log('2312312', pokemon)
+        let title;
+        if(isWinner){
+            title = <h1 className='pokedex-winner'>Winner!</h1>
+        }else{
+            title = <h1 className='pokedex-loser'>Loser!</h1>
+        }
 
         return(
+          <>
+          {!isLoading &&
             <div className='pokedex'>
-              <p>Total Experience: {tenPokeExp.reduce((a, b) => a + b, 0)}</p>
-                {/* <p>Total Experience: {tenPokeExp}</p>
-                    {title} */}
+                {title} 
+               <p>Total Team Experience: {exp}</p>
                 <div className="pokedex-cards">
-                {/* {pokemon.map((p)=>( */}
-                   {/* //   console.log(p.id) */}
-                    <Pokecard key={pokemon.id} id={pokemon.id} name={pokemon.name} type={pokemon.type} exp={pokemon.exp} />
-                {/* ))} */}
+                  {pokemon.map(p => <Pokecard  key={p.id} isLoading={p.isLoading} pKey={p.key} id={p.id} name={p.name} type={p.type} exp={p.exp} url={p.url}/>)}
                    </div>
             </div>
+          }
+          </>
         )
     
 

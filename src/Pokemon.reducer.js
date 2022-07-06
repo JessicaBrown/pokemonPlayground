@@ -3,85 +3,57 @@ import axios from 'axios';
 import _ from 'lodash';
 
 import { PokemonContext } from './Pokemon.context';
+import {pokemonNameApi, pokemonStatsApi} from './Pokemon.constants'
 
 export const usePokemonContext = () => {
     const [state, setState] = useContext(PokemonContext);
-    const pokemonNameApi = 'https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0';
-    const pokemonStatsApi = 'https://pokeapi.co/api/v2/pokemon/';
-    const Poke_Img_API = "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/";
-    const setPokemonName = async () => {
 
+    const setPokemon = async () => {
+      setState(draft => {
+        draft.isLoading = true;
+      });
         try {
-        //   setState(draft => {
-        //     draft.isActivityLogLoading = true;
-        //   });
+
 
           const resName = await axios.get(`${pokemonNameApi}`);
-          const allNames = resName.data.results;
-          const pokeName = allNames.map(p => p.name)
+          const allPokemonNames = resName.data.results;
+          const pokeName = allPokemonNames.map(p => p.name)
 
           const shuffled = pokeName.sort(() => 0.5 - Math.random());
           let selected = shuffled.slice(0, 10);
 
+
+
+          // Using await Promise.all to call second api call for data of selelcted 10
           (async () => {
-            //map the array to an array of promises to be able to use the data
             const promises = selected.map(async (p) => {
-                 const pokeRes = await axios(`${pokemonStatsApi}${_.forEach(p)}`)
-              const pokeData = await new Promise((resolve) =>  resolve( pokeRes));
+            const pokeRes = await axios(`${pokemonStatsApi}${_.forEach(p)}`)
+            const pokeData = await new Promise(r => r(pokeRes));
               return {  pokeData };
             });
             const results = await Promise.all(promises);
-            console.log('results',results)
-      
-            const allResults = [];
-            const padToThree = (n) => (n <= 999 ? `00${n}`.slice(-3) : n);
-            console.log('All Results',allResults)
+            console.log('result in reducer',results)
+            const tenPokemonData = [];
             const tenPokeStats = results.map(d =>  d.pokeData.data)
-            const pokeId = tenPokeStats.map(d =>d.id)
-            console.log('10',tenPokeStats)
+            // Poke_Img_API call will not accept 1 - 99
+            // const Poke_Img_API = "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/";
+            // pad 0's [1 = 001]
+            // const padToThree = (n) => (n <= 999 ? `00${n}`.slice(-3) : n);
+            //`${Poke_Img_API}${_.forEach(padToThree(p.id))}.png`
             tenPokeStats.map(p => { 
-              console.log('P', p)
-            //  let url;
-           //   pokeId.map(p => {return url.push({'url': `${Poke_Img_API}${_.forEach(padToThree(p))}.png`})})
-           const url = pokeId.map(id => {
-          //  if(){}else{}
-              return {'url': `${Poke_Img_API}${_.forEach(padToThree(id))}.png`,'id': id}
-
+              return tenPokemonData.push({url: p.sprites.other['official-artwork'].front_default, exp: p.base_experience !== null ? p.base_experience : 0,name: p.name,id: p.id, type: p.types[0].type.name, key: p.id + 11, isLoading: false})     
             })
-            const x = url.map(d => console.log(p.id, d.id))
-            // const x = url.map(d => 
-            //   {return d.id} p.id === x
-            // )
-            // need to push url into this array
-            console.log('URL', x)
-              return allResults.push({url: x, exp: p.base_experience !== null ? p.base_experience : 0,name: p.name,id: p.id, type: p.types[0].type.name})})
-            const pokeName = tenPokeStats.map(d =>d.name)
-            const pokeExp = tenPokeStats.map(d =>d.base_experience)
-            const pokeType = tenPokeStats.map(d =>d.types[0].type.name)
-            console.log('All Resultssssss',allResults)
-
-                  setState(draft => {
-                    draft.pokemon = allResults;
-                draft.tenPokeStats = tenPokeStats;
-                draft.tenPokeIds = pokeId;
-                draft.tenPokeNames = pokeName;
-                draft.tenPokeExp = pokeExp;
-                draft.tenPokeTypes = pokeType;
+              setState(draft => {
+                draft.pokemon = tenPokemonData;
               });
           })();
         } catch (error) {
             return error;
-        //   setState(draft => {
-        //     draft.isActivityLogLoading = false;
-        //     draft.activityLogErrors = error;
-        //   });
-        //   errorHandler(error);
         }
-  
       };
 
     return {
         ...state,
-        setPokemonName,
+        setPokemon,
       };
     };

@@ -1,14 +1,11 @@
 import React from "react";
-import './App.css';
-//import {PokemonGame} from './PokemonGame';
-// import {defaultProps} from './Pokemon.default.props'
- import {Pokedex} from './Pokedex';
 
+import {PokemonGame} from './PokemonGame';
 
 function App() {
   return (
      <div className="App">
-    <Pokedex />
+      <PokemonGame />
      </div>
   );
 }
