@@ -94,6 +94,53 @@ const initialState = {
 			url: "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/905.png",
 		},
 	],
+	hand1: [
+		{
+			isLoading: true,
+			key: 0,
+			exp: 0,
+			id: 0,
+			name: "N/A",
+			type: "N/A",
+			url: "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/905.png",
+		},
+		{
+			isLoading: true,
+			key: 1,
+			exp: 0,
+			id: 1,
+			name: "N/A",
+			type: "N/A",
+			url: "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/905.png",
+		},
+		{
+			isLoading: true,
+			key: 2,
+			exp: 0,
+			id: 2,
+			name: "N/A",
+			type: "N/A",
+			url: "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/905.png",
+		},
+		{
+			isLoading: true,
+			key: 3,
+			exp: 0,
+			id: 3,
+			name: "N/A",
+			type: "N/A",
+			url: "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/905.png",
+		},
+		{
+			isLoading: true,
+			key: 4,
+			exp: 0,
+			id: 4,
+			name: "N/A",
+			type: "N/A",
+			url: "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/905.png",
+		},
+	],
 };
 // Create a context
 const PokemonContext = createContext();
